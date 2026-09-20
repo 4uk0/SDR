@@ -198,6 +198,55 @@ a{color:inherit;text-decoration:none}
 @media (max-width:860px){.gal-all{grid-template-columns:repeat(2,1fr)}}
 button.link-arrow{background:none;border:0;cursor:pointer}
 button.link-arrow[aria-expanded="true"] svg{transform:rotate(90deg)}
+/* Read full story */
+.story-more{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .6s ease,opacity .5s ease}
+.story-more>div{overflow:hidden}
+.story-more.open{grid-template-rows:1fr;opacity:1}
+.story .sign{font-family:var(--f-brush);color:var(--acid);font-size:24px;margin-top:10px}
+.story button.link-arrow{margin-top:30px}
+
+/* Specialty cards are buttons now */
+button.spec{font:inherit;color:inherit;padding:0;text-align:left;width:100%}
+
+/* Service panel */
+html.modal-open{overflow:hidden}
+.svc{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;
+  padding:calc(24px + env(safe-area-inset-top,0px)) 20px calc(24px + env(safe-area-inset-bottom,0px));
+  background:rgba(0,0,0,.86);backdrop-filter:blur(6px);opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
+.svc.open{opacity:1;visibility:visible}
+.svc-box{position:relative;width:min(1180px,100%);max-height:100%;overflow:auto;display:grid;grid-template-columns:1.1fr 1fr;
+  background:#07070a;border:1px solid #2a2a31;border-radius:10px;box-shadow:0 30px 80px rgba(0,0,0,.7),0 0 0 1px rgba(212,255,0,.08);
+  transform:translateY(24px) scale(.97);transition:transform .45s cubic-bezier(.2,.9,.3,1)}
+.svc.open .svc-box{transform:none}
+.svc-box::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;z-index:2;
+  background:linear-gradient(90deg,var(--acid),var(--magenta),var(--candy),var(--violet),var(--flame))}
+.svc-close{top:14px;right:14px;z-index:3;background:rgba(0,0,0,.6)}
+.svc-media{padding:28px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.svc-frame{position:relative;flex:1;min-height:320px;overflow:hidden;border-radius:6px;clip-path:polygon(0 0,100% 0,94% 100%,0 100%)}
+.svc-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.svc-frame img.in{animation:svcIn .5s ease both}
+@keyframes svcIn{from{opacity:0;transform:scale(1.05)}to{opacity:1;transform:none}}
+.svc-thumbs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+.svc-thumbs button{flex:none;width:76px;height:56px;padding:0;border:2px solid transparent;border-radius:4px;overflow:hidden;background:#111;cursor:pointer;opacity:.6;transition:opacity .2s,border-color .2s}
+.svc-thumbs button.on,.svc-thumbs button:hover{opacity:1;border-color:var(--acid)}
+.svc-thumbs img{width:100%;height:100%;object-fit:cover}
+.svc-copy{padding:40px 40px 36px 12px}
+.svc-copy .h2{font-size:clamp(28px,3vw,42px)}
+.svc-tag{font-family:var(--f-brush);color:var(--acid);font-size:clamp(20px,2vw,28px);line-height:1.15;margin:14px 0 16px;transform:rotate(-2deg)}
+.svc-text{color:var(--paper);font-size:15.5px}
+.svc-points{list-style:none;margin:22px 0;display:grid;gap:10px}
+.svc-points li{position:relative;padding-left:28px;font-size:14.5px}
+.svc-points li::before{content:"";position:absolute;left:0;top:.45em;width:14px;height:8px;border-radius:0 0 8px 8px;
+  background:linear-gradient(90deg,var(--magenta),var(--acid))}
+.svc-hand{border-left:3px solid var(--acid);padding:10px 14px;background:rgba(212,255,0,.06);color:var(--paper);font-size:14px;font-style:italic;margin-bottom:26px}
+@media (max-width:860px){
+  .svc{padding:0;align-items:stretch}
+  .svc-box{grid-template-columns:1fr;border-radius:0;border:0;max-height:none;height:100%}
+  .svc-media{padding:56px 16px 0}
+  .svc-frame{min-height:240px;flex:none;height:44vh;clip-path:none}
+  .svc-copy{padding:24px 20px calc(36px + env(safe-area-inset-bottom,0px))}
+}
+
 /* Lightbox */
 .lightbox{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.94);display:none;align-items:center;justify-content:center;padding:40px}
 .lightbox.open{display:flex}
@@ -373,7 +422,13 @@ html.spraying{user-select:none;-webkit-user-select:none}
       <h2 class="h2">It started<br>in a garage</h2>
       <p>I grew up in a family of bikers, painters and mechanics. From a young age, the smell of body filler, resin and primer was a part of my life. My father and uncle still ride, build and paint motorcycles to this day.</p>
       <p>At 6, I got my first scooter. At 9, I worked on a 1950s Jawa with my grandfather — sanded it, did the bodywork, and learned to spray my first metallic paint. That was the beginning of a passion for custom paint, motorcycles and building things my own way.</p>
-      <a href="#" class="link-arrow">Read full story <svg width="22" height="12" viewBox="0 0 22 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M0 6h20M15 1l5 5-5 5"/></svg></a>
+      <div class="story-more" data-story-more id="story-more"><div>
+        <p>Years later, the smell of primer still gets me going. What started as a kid's project in my grandfather's garage became SDR — Slammed Dirty Rides — a small shop in Florida where every bike gets the same attention I gave that old Jawa.</p>
+        <p>I don't do production paint. Every job starts with a conversation: what you ride, how you ride it, and what you want people to feel when they see it. Then come the hours — bodywork, masking, mixing, spraying — candy over metallic, lace and honeycomb patterns, freehand airbrush, until it's exactly right. No shortcuts, and never two bikes the same.</p>
+        <p>Same passion. Different tools. If you've got a ride that needs getting dirty, let's talk.</p>
+        <p class="sign">— Kai</p>
+      </div></div>
+      <button type="button" class="link-arrow" data-story-toggle aria-expanded="false" aria-controls="story-more"><span>Read full story</span> <svg width="22" height="12" viewBox="0 0 22 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M0 6h20M15 1l5 5-5 5"/></svg></button>
     </div>
     <div class="collage">
       <div class="polaroid p1"><div class="slot" data-img="story1" data-label="old photo"></div></div>
@@ -449,6 +504,26 @@ html.spraying{user-select:none;-webkit-user-select:none}
 
 
 
+<!-- Service panel -->
+<div class="svc" role="dialog" aria-modal="true" aria-labelledby="svc-title" data-svc>
+  <div class="svc-box">
+    <button class="lb-btn svc-close" aria-label="Close" data-svc-close>✕</button>
+    <div class="svc-media">
+      <div class="svc-frame"><img alt="" data-svc-img></div>
+      <div class="svc-thumbs" data-svc-thumbs></div>
+    </div>
+    <div class="svc-copy">
+      <p class="eyebrow">What we do</p>
+      <h3 class="h2" id="svc-title" data-svc-title></h3>
+      <p class="svc-tag" data-svc-tag></p>
+      <p class="svc-text" data-svc-text></p>
+      <ul class="svc-points" data-svc-points></ul>
+      <p class="svc-hand" data-svc-hand></p>
+      <a href="#contact" class="btn" data-svc-cta>Start your project <svg width="22" height="12" viewBox="0 0 22 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M0 6h20M15 1l5 5-5 5"/></svg></a>
+    </div>
+  </div>
+</div>
+
 <!-- Lightbox -->
 <div class="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" data-lightbox>
   <img alt="">
@@ -514,14 +589,56 @@ const SITE = {
     story3:  "",                                           // spray gun cut-out (png) — empty = hidden
     contact: "images/contact-tank.png"   // cut out of the header photo
   },
-  // Specialty cards — using gallery shots for now; swap for dedicated photos any time
+  // Specialty cards. Clicking a card opens a panel with the big photo, the text and extra photos.
+  // Every word here can be edited — keep "points" short (one line each).
   specialties: [
-    { title: "Custom<br>paint",           img: "images/gallery-01-red-carbon-wheel.jpg",        link: "#gallery" },
-    { title: "Airbrush",                  img: "images/gallery-10-bumblebee-tank-airbrush.jpg", link: "#gallery" },
-    { title: "Bodywork",                  img: "images/gallery-06-suzuki-tail-custom-seat.jpg", link: "#gallery" },
-    { title: "Restoration",               img: "images/gallery-04-purple-lace-tank-top.jpg",    link: "#gallery" },
-    { title: "Builds &<br>modifications", img: "images/gallery-05-red-build-on-stand.jpg",      link: "#gallery" }
+    { title: "Custom<br>paint", img: "images/gallery-01-red-carbon-wheel.jpg",
+      tagline: "Colour nobody else has.",
+      text: "Factory paint is made for thousands of bikes. Ours is made for one — yours. Every coat is mixed and laid by hand, building candy over metallic bases so the colour looks a mile deep and shifts as the light moves across it.",
+      points: ["Candy, pearl, metal flake and colour-shift finishes",
+               "Lace, honeycomb and custom stencil patterns laid into the paint",
+               "Tinted carbon fibre — make the weave glow red, purple, gold or any colour",
+               "Full colour changes, two-tones, stripes and matching helmets",
+               "Deep, glass-smooth clear coat, cut and polished to a show shine"],
+      photos: ["images/gallery-01-red-carbon-wheel.jpg","images/gallery-03-purple-lace-tank-side.jpg","images/gallery-19-red-gold-tank.jpg","images/gallery-18-black-gold-gsxr.jpg","images/gallery-08-purple-carbon-wheel.jpg"] },
+    { title: "Airbrush", img: "images/gallery-10-bumblebee-tank-airbrush.jpg",
+      tagline: "If you can imagine it, it can go on your bike.",
+      text: "Freehand artwork painted straight onto your tank, fairings or helmet — no stickers, no wraps. From a swarm of bees crawling over honeycomb to an anime battle on a windscreen, every piece is drawn for you and agreed with you before it goes under clear.",
+      points: ["Characters, anime and pop-culture art",
+               "Wildlife and realism — animals, portraits, skulls, sea life",
+               "Your name, club logo, lettering and pinstripes",
+               "Hidden details only you know are there",
+               "Artwork sealed under clear coat, built to last on the road"],
+      photos: ["images/gallery-10-bumblebee-tank-airbrush.jpg","images/gallery-14-anime-airbrush-windscreen.jpg","images/gallery-15-sea-turtle-airbrush.jpg","images/gallery-22-green-airbrush-cover.jpg","images/gallery-11-hayabusa-bumblebee.jpg"] },
+    { title: "Bodywork", img: "images/gallery-06-suzuki-tail-custom-seat.jpg",
+      tagline: "Straight panels. Perfect gaps. No shortcuts.",
+      text: "Great paint is only as good as what's underneath. Cracked fairings, dents, scrapes and broken tabs are repaired properly — welding, filling and hours of blocking — so the surface is dead straight before a single drop of colour goes on.",
+      points: ["Crash and drop repair on fairings, tanks and tails",
+               "Plastic welding and rebuilt mounting tabs",
+               "Dent, scratch and rust repair",
+               "Aftermarket and carbon bodywork fitted to line up like factory",
+               "Full prep — sanding, priming and blocking to a flawless base"],
+      photos: ["images/gallery-06-suzuki-tail-custom-seat.jpg","images/gallery-21-carbon-fairing.jpg","images/gallery-20-red-carbon-gold-fairing.jpg","images/gallery-07-red-gsxr-airbrushed.jpg"] },
+    { title: "Restoration", img: "images/gallery-12-nighthawk-side-cover.jpg",
+      tagline: "Bring it back better than new.",
+      text: "Classic and tired bikes get stripped, repaired and refinished with the respect they deserve. Original colours and stripe layouts are matched — or reinvented — so a decades-old side cover leaves the shop looking like it just rolled off the line.",
+      points: ["Stripped back and rust treated",
+               "Original factory colours, stripes and decals matched",
+               "Vintage tanks, side covers and fenders rebuilt",
+               "Faithful factory look — or a modern custom twist",
+               "Hand-finished details, down to the last badge"],
+      photos: ["images/gallery-12-nighthawk-side-cover.jpg","images/gallery-04-purple-lace-tank-top.jpg","images/gallery-02-blue-honeycomb-tank.jpg"] },
+    { title: "Builds &<br>modifications", img: "images/gallery-05-red-build-on-stand.jpg",
+      tagline: "Slammed, stretched and one of a kind.",
+      text: "This is where the name comes from. Stretched swingarms, fat rear tyres, underglow, custom seats — complete builds are planned with you from the first idea to the final polish, so your bike looks and rides like nothing else on the street.",
+      points: ["Stretched and slammed stance, fat-tyre looks",
+               "Candy, chrome or colour-matched wheels, calipers and frames",
+               "LED underglow and custom lighting",
+               "Custom seats, controls and trim",
+               "Full themed builds — paint, parts and art designed as one"],
+      photos: ["images/gallery-05-red-build-on-stand.jpg","images/gallery-13-silver-red-hayabusa.jpg","images/gallery-17-candy-purple-underglow.jpg","images/gallery-16-white-gsxr-blue-wheels.jpg","images/gallery-09-candy-red-sportbike.jpg"] }
   ],
+  handmade: "Every job is one-off and made by hand. Nothing comes out of a catalogue — the design, the colours and every detail are built around you and your ride.",
   // featured: true → shown in the big skewed row (keep it to 4). Everything shows under "View all projects".
   // wide: true → takes two columns in the full grid (good for landscape full-bike shots)
   gallery: [
@@ -595,9 +712,50 @@ $$("[data-img]").forEach(el => fill(el, SITE.images[el.dataset.img]));
 
 // Specialties
 $("[data-specialties]").innerHTML = SITE.specialties.map((s,i) =>
-  `<a class="spec" href="${s.link}"><div class="slot" data-label="specialty ${i+1}"></div>
-   <div class="spec-label"><h3>${s.title}</h3>${ICONS.arrow}</div></a>`).join("");
+  `<button class="spec" type="button" data-spec="${i}" aria-haspopup="dialog" aria-label="${s.title.replace(/<br>/g," ")} — see what we do"><div class="slot" data-label="specialty ${i+1}"></div>
+   <div class="spec-label"><h3>${s.title}</h3>${ICONS.arrow}</div></button>`).join("");
 $$(".spec .slot").forEach((el,i) => fill(el, SITE.specialties[i].img));
+
+// Service panel (opens when a specialty card is clicked)
+(() => {
+  const m = $("[data-svc]"), main = $("[data-svc-img]"), thumbs = $("[data-svc-thumbs]");
+  let lastFocus = null;
+  const setMain = src => { main.classList.remove("in"); void main.offsetWidth; main.src = resolve(src); main.classList.add("in");
+    $$("button", thumbs).forEach(b => b.classList.toggle("on", b.dataset.src === src)); };
+  function open(i){
+    const s = SITE.specialties[i];
+    $("[data-svc-title]").innerHTML = s.title;
+    $("[data-svc-tag]").textContent = s.tagline;
+    $("[data-svc-text]").textContent = s.text;
+    $("[data-svc-points]").innerHTML = s.points.map(p => `<li>${p}</li>`).join("");
+    $("[data-svc-hand]").textContent = SITE.handmade;
+    const photos = s.photos && s.photos.length ? s.photos : [s.img];
+    thumbs.innerHTML = photos.length > 1 ? photos.map(src => `<button type="button" data-src="${src}" aria-label="Show photo"><img src="${resolve(src)}" alt=""></button>`).join("") : "";
+    main.alt = s.title.replace(/<br>/g, " ");
+    setMain(photos[0]);
+    lastFocus = document.activeElement;
+    m.classList.add("open"); document.documentElement.classList.add("modal-open");
+    $("[data-svc-close]").focus();
+  }
+  function close(){ m.classList.remove("open"); document.documentElement.classList.remove("modal-open"); lastFocus && lastFocus.focus(); }
+  $("[data-specialties]").addEventListener("click", e => { const b = e.target.closest("[data-spec]"); if (b) open(+b.dataset.spec); });
+  thumbs.addEventListener("click", e => { const b = e.target.closest("button"); if (b) setMain(b.dataset.src); });
+  $("[data-svc-close]").onclick = close;
+  m.addEventListener("click", e => { if (e.target === m) close(); });
+  $("[data-svc-cta]").addEventListener("click", () => close());
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && m.classList.contains("open")) close(); });
+})();
+
+// Read full story
+(() => {
+  const btn = $("[data-story-toggle]"), more = $("[data-story-more]");
+  btn.addEventListener("click", () => {
+    const o = more.classList.toggle("open");
+    btn.setAttribute("aria-expanded", o);
+    $("span", btn).textContent = o ? "Show less" : "Read full story";
+    if (!o) $("#story").scrollIntoView({ behavior: "smooth" });
+  });
+})();
 
 // Gallery + lightbox
 const galItem = (g,i,all) => `<button class="gal-item${all && g.wide ? " wide" : ""}" data-i="${i}" aria-label="Open photo: ${g.alt}"><div class="slot" data-label="gallery ${i+1}"></div></button>`;
@@ -977,7 +1135,7 @@ $$("[data-drips]").forEach(makeDrips);
 
   let held = false, px = 0, py = 0, timer, hex = col(PAL[0]);
   addEventListener("pointerdown", e => {
-    if (e.button !== 0 || $("[data-lightbox]").classList.contains("open")) return;
+    if (e.button !== 0 || $("[data-lightbox]").classList.contains("open") || $("[data-svc]").classList.contains("open")) return;
     hex = col(PAL[ci]);
     puff(e.pageX, e.pageY, 30, hex, 240, 6);
     px = e.pageX; py = e.pageY;
